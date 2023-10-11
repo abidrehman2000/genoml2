@@ -162,13 +162,13 @@ class train:
         # Drop those with specificity 0 or 1
         sorted_table = sorted_table[(sorted_table['Specificity'] != 0.0) & (sorted_table['Specificity'] != 1.0)]
 
-        # Reset the index so that we can access the best algorithm at index 0
-        sorted_table = sorted_table.reset_index(drop=True)
-
         # If for some reason ALL the algorithms are overfit...
         if sorted_table.empty:
             print('It seems as though all the algorithms are over-fit in some way or another... We will report the best algorithm based on your chosen metric instead and use that moving forward.')
             sorted_table = self.log_table.sort_values(metric_keys[self.metric_max], ascending=False)
+
+        # Reset the index so that we can access the best algorithm at index 0
+        sorted_table = sorted_table.reset_index(drop=True)
 
         # Get the row with the best algorithm
         self.best_performing_summary = sorted_table.iloc[0]
